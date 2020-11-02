@@ -1,20 +1,24 @@
 import pygame
 pygame.init()
 
-win = pygame.display.set_mode((500,500))
+win = pygame.display.set_mode((500, 500))
 
 pygame.display.set_caption("First Game")
 
-walkRight = [pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R1.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R2.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R3.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R4.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R5.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R6.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R7.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R8.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R9.png')]
-walkLeft = [pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L1.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L2.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L3.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L4.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L5.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L6.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L7.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L8.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L9.png')]
-bg = pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\\bg.jpg')#background
-char = pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\standing.png')
+walkRight = [pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R1.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R2.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R3.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R4.png'), pygame.image.load(
+    'D:\Developing\Python\Python Oyun denemeleri\Images\R5.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R6.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R7.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R8.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\R9.png')]
+walkLeft = [pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L1.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L2.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L3.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L4.png'), pygame.image.load(
+    'D:\Developing\Python\Python Oyun denemeleri\Images\L5.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L6.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L7.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L8.png'), pygame.image.load('D:\Developing\Python\Python Oyun denemeleri\Images\L9.png')]
+bg = pygame.image.load(
+    'D:\Developing\Python\Python Oyun denemeleri\Images\\bg.jpg')  # background
+char = pygame.image.load(
+    'D:\Developing\Python\Python Oyun denemeleri\Images\standing.png')
 
 clock = pygame.time.Clock()
 
 
 class player(object):
-    def __init__(self,x,y,width,height):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.width = width
@@ -33,21 +37,20 @@ class player(object):
 
         if not(self.standing):
             if self.left:
-                win.blit(walkLeft[self.walkCount//3], (self.x,self.y))
+                win.blit(walkLeft[self.walkCount//3], (self.x, self.y))
                 self.walkCount += 1
             elif self.right:
-                win.blit(walkRight[self.walkCount//3], (self.x,self.y))
-                self.walkCount +=1
+                win.blit(walkRight[self.walkCount//3], (self.x, self.y))
+                self.walkCount += 1
         else:
             if self.right:
                 win.blit(walkRight[0], (self.x, self.y))
             else:
                 win.blit(walkLeft[0], (self.x, self.y))
-                
 
 
 class projectile(object):
-    def __init__(self,x,y,radius,color,facing):
+    def __init__(self, x, y, radius, color, facing):
         self.x = x
         self.y = y
         self.radius = radius
@@ -55,22 +58,21 @@ class projectile(object):
         self.facing = facing
         self.vel = 8 * facing
 
-    def draw(self,win):
-        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
-
+    def draw(self, win):
+        pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
 
 
 def redrawGameWindow():
-    win.blit(bg, (0,0))
+    win.blit(bg, (0, 0))
     man.draw(win)
     for bullet in bullets:
         bullet.draw(win)
-    
+
     pygame.display.update()
 
 
-#mainloop
-man = player(200, 410, 64,64)
+# mainloop
+man = player(200, 410, 64, 64)
 bullets = []
 run = True
 while run:
@@ -79,7 +81,7 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        
+
     for bullet in bullets:
         if bullet.x < 500 and bullet.x > 0:
             bullet.x += bullet.vel
@@ -93,9 +95,10 @@ while run:
             facing = -1
         else:
             facing = 1
-            
+
         if len(bullets) < 5:
-            bullets.append(projectile(round(man.x + man.width //2), round(man.y + man.height//2), 6, (0,0,0), facing))
+            bullets.append(projectile(round(man.x + man.width // 2),
+                                      round(man.y + man.height//2), 6, (0, 0, 0), facing))
 
     if keys[pygame.K_LEFT] and man.x > man.vel:
         man.x -= man.vel
@@ -110,7 +113,7 @@ while run:
     else:
         man.standing = True
         man.walkCount = 0
-        
+
     if not(man.isJump):
         if keys[pygame.K_UP]:
             man.isJump = True
@@ -127,7 +130,7 @@ while run:
         else:
             man.isJump = False
             man.jumpCount = 10
-            
+
     redrawGameWindow()
 
 pygame.quit()

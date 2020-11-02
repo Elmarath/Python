@@ -29,17 +29,14 @@ while run:
         x -= vel
     if keys[pygame.K_RIGHT] and x < x_max-width-vel:
         x += vel
-    if keys[pygame.K_UP] and y >vel:
+    if keys[pygame.K_UP] and y > vel:
         y -= vel
     if keys[pygame.K_DOWN] and y < y_max-height-vel:
         y += vel
 
-
     win.fill((0, 0, 0))
-    pygame.draw.rect(win,(100, 0, 255), (x, y, width, height))
+    pygame.draw.rect(win, (100, 0, 255), (x, y, width, height))
     pygame.display.update()
-
-
 
 
 pygame.quit()
