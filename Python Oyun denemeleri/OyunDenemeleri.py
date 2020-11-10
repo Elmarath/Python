@@ -141,7 +141,6 @@ class enemy(object):
             self.health -= 1
         else:
             self.visible = False
-        print('hit')
 
 
 class projectile(object):
