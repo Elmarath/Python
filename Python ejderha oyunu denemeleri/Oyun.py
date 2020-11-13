@@ -1,8 +1,6 @@
 import pygame
 import math
 
-from pygame.constants import K_w
-
 pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -11,7 +9,8 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Dragon game")
 
-background = pygame.image.load('Images\Dungeon_Background.png')
+background = pygame.image.load(
+    'Python ejderha oyunu denemeleri\Images\Dungeon_Background.png')
 
 
 def getAngle(paw_x, paw_y):
@@ -39,7 +38,8 @@ def getAngle(paw_x, paw_y):
 class player(object):
 
     def __init__(self, x, y, width, height, vel, angle):
-        self.player_image = pygame.image.load('Images\BabyDragonImage.png')
+        self.player_image = pygame.image.load(
+            'Python ejderha oyunu denemeleri\Images\BabyDragonImage.png')
         self.x = x
         self.y = y
         self.width = width
@@ -70,7 +70,8 @@ class player(object):
 
 
 class tiny_enemy(object):
-    tiny_enemy_image = pygame.image.load('Images\TinyEnemyImage.png')
+    tiny_enemy_image = pygame.image.load(
+        'Python ejderha oyunu denemeleri\Images\TinyEnemyImage.png')
 
     def __init__(self, x, y, width, height, vel):
         self.x = x
@@ -86,6 +87,32 @@ class tiny_enemy(object):
             win, (255, 0, 0), (self.x, self.y), 5)
 
 
+class projectile(object):
+    def __init__(self, x, y, radius, color, angle):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.angle = angle
+        self.vel = 8
+
+
+def createProjectile(bullets, angle):
+    for bullet in bullets:
+        if bullet.x < SCREEN_WIDTH and bullet.x > 0:
+            bullet.x += math.cos(angle) * bullet.vel
+        if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
+            bullet.y += math.sin(angle) * bullet.vel
+
+
+def redrawGameWindow():
+    win.blit(background, (0, 0))
+    dragon.draw(win, image, dragonx, dragony)
+    tiny_knight.draw(win)
+
+    pygame.display.update()
+
+
 # mainloop
 run = True
 player_spawn_x = 350
@@ -99,6 +126,8 @@ tiny_enemy_width = 64
 tiny_enemy_height = 64
 tiny_enemy_vel = 4
 angle = 0
+
+bullets = []
 
 dragon = player(player_spawn_x, player_spawn_y,
                 player_width, player_height, player_vel, angle)
@@ -123,7 +152,14 @@ while run:
         if tiny_knight.y > dragon.y:
             tiny_knight.y -= tiny_knight.vel
 
+    # left button middle button right button
+    M1, Mm, M2 = pygame.mouse.get_pressed()
     keys = pygame.key.get_pressed()
+    if M1 == True:
+        if len(bullets) < 5:
+            bullets.append(projectile(round(dragon.x + dragon.width // 2),
+                                      round(dragon.y + dragon.height // 2), 6, (255, 0, 0), dragon.angle))
+            createProjectile(bullets, dragon.angle)
     if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and dragon.x > 0 + dragon.width//2:
         dragon.x -= dragon.vel
     if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and dragon.x < SCREEN_WIDTH - dragon.width//2:
@@ -140,9 +176,6 @@ while run:
 
     image, dragonx, dragony = dragon.rotate()
 
-    win.blit(background, (0, 0))
-    dragon.draw(win, image, dragonx, dragony)
-    tiny_knight.draw(win)
-    pygame.display.update()
+    redrawGameWindow()
 
 pygame.quit()
