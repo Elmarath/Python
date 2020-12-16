@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Dragon game")
 
 background = pygame.image.load(
-    'Python ejderha oyunu denemeleri\Images\Dungeon_Background.png')
+    'D:\Developing\Python\Python ejderha oyunu denemeleri\Images\Dungeon_Background.png')
 
 
 def getAngle(paw_x, paw_y):
@@ -39,7 +39,7 @@ class player(object):
 
     def __init__(self, x, y, width, height, vel, angle):
         self.player_image = pygame.image.load(
-            'Python ejderha oyunu denemeleri\Images\BabyDragonImage.png')
+            'D:\Developing\Python\Python ejderha oyunu denemeleri\Images\BabyDragonImage.png')
         self.x = x
         self.y = y
         self.width = width
@@ -71,7 +71,7 @@ class player(object):
 
 class tiny_enemy(object):
     tiny_enemy_image = pygame.image.load(
-        'Python ejderha oyunu denemeleri\Images\TinyEnemyImage.png')
+        'D:\Developing\Python\Python ejderha oyunu denemeleri\Images\TinyEnemyImage.png')
 
     def __init__(self, x, y, width, height, vel):
         self.x = x
