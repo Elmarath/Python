@@ -121,6 +121,10 @@ class Game:
         for snd in ZOMBIE_HIT_SOUNDS:
             self.zombie_hit_sounds.append(
                 pg.mixer.Sound(path.join(snd_folder, snd)))
+        # arrow sounds
+        self.arrow_release_sounds = []
+        # self.arrow_release_sounds.append(
+        #   pg.mixer.Sound(path.join(snd_folder, ARROW_SOUND)))
 
     def new(self):
         # initialize all variables and do all the setup for a new game

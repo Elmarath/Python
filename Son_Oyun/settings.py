@@ -54,6 +54,7 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
 # arrow settings
 ARROW_IMG = 'arrow2.png'
 ARROW_DAMAGE = 30
+ARROW_SOUND = 'arrow_release.wav'
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
@@ -121,7 +122,7 @@ BOB_RANGE = 10
 BOB_SPEED = 0.3
 
 # Sounds
-BG_MUSIC = 'For Honor For Toussaint.ogg'
+BG_MUSIC = '03-For-Honor-For-Toussaint.mp3'
 PLAYER_HIT_SOUNDS = ['pain/8.wav', 'pain/9.wav', 'pain/10.wav', 'pain/11.wav']
 ZOMBIE_MOAN_SOUNDS = ['brains2.wav', 'brains3.wav', 'zombie-roar-1.wav', 'zombie-roar-2.wav',
                       'zombie-roar-3.wav', 'zombie-roar-5.wav', 'zombie-roar-6.wav', 'zombie-roar-7.wav']
