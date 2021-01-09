@@ -1,7 +1,3 @@
-# KidsCanCode - Game Development with Pygame video series
-# Tile-based game - Part 22
-# Game Over
-# Video link: https://youtu.be/DZYY9hCOxLQ
 import pygame as pg
 import sys
 from random import choice, random
@@ -132,6 +128,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
+        self.arrows = pg.sprite.Group()
         self.items = pg.sprite.Group()
         self.map = TiledMap(path.join(self.map_folder, 'medievalMap1.tmx'))
         self.map_img = self.map.make_map()
@@ -212,6 +209,19 @@ class Game:
             for bullet in hits[mob]:
                 mob.health -= bullet.damage
             mob.vel = vec(0, 0)
+        # arrows hit player
+        hits = pg.sprite.spritecollide(
+            self.player, self.arrows, False, collide_hit_rect)
+        if hits:
+            self.player.hit()
+            self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
+        for hit in hits:
+            hit.vel = vec(0, 0)
+
+            self.player.health -= ARROW_DAMAGE
+            if self.player.health <= 0:
+                self.playing = False
+            hit.kill()
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -227,6 +237,12 @@ class Game:
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):
                 sprite.draw_health()
+            if isinstance(sprite, Knight):
+                sprite.draw_health()
+            if isinstance(sprite, Wizard):
+                sprite.draw_health()
+            if isinstance(sprite, Archer):
+                sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
             if self.draw_debug:
                 pg.draw.rect(self.screen, CYAN,
@@ -240,7 +256,7 @@ class Game:
         # HUD functions
         draw_player_health(self.screen, 10, 10,
                            self.player.health / PLAYER_HEALTH)
-        self.draw_text('Zombies: {}'.format(len(self.mobs)), self.hud_font, 30, WHITE,
+        self.draw_text('ENEMIES: {}'.format(len(self.mobs)), self.hud_font, 30, WHITE,
                        WIDTH - 10, 10, align="ne")
         if self.paused:
             self.screen.blit(self.dim_screen, (0, 0))
@@ -262,7 +278,13 @@ class Game:
                     self.paused = not self.paused
 
     def show_start_screen(self):
-        pass
+        self.screen.fill(BLACK)
+        self.draw_text("DRAGON GAME", self.title_font, 100, RED,
+                       WIDTH / 2, HEIGHT / 3, align="center")
+        self.draw_text("Press a key to start", self.title_font, 75, WHITE,
+                       WIDTH / 2, HEIGHT * 3 / 4, align="center")
+        pg.display.flip()
+        self.wait_for_key()
 
     def show_go_screen(self):
         self.screen.fill(BLACK)

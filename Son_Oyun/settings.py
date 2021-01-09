@@ -13,8 +13,8 @@ BROWN = (106, 55, 5)
 CYAN = (0, 255, 255)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
+WIDTH = 960  # 16 * 64 or 32 * 32 or 64 * 16
+HEIGHT = 860  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Tilemap Demo"
 BGCOLOR = BROWN
@@ -35,11 +35,11 @@ BARREL_OFFSET = vec(30, 0)
 BULLET_IMG = 'fireball_0.png'
 WEAPONS = {}
 WEAPONS['pistol'] = {'bullet_speed': 500,
-                     'bullet_lifetime': 1000,
-                     'rate': 250,
-                     'kickback': 200,
-                     'spread': 5,
-                     'damage': 10,
+                     'bullet_lifetime': 2000,
+                     'rate': 500,
+                     'kickback': 2,
+                     'spread': 10,
+                     'damage': 30,
                      'bullet_size': 'lg',
                      'bullet_count': 1}
 WEAPONS['shotgun'] = {'bullet_speed': 400,
@@ -50,6 +50,10 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'damage': 5,
                       'bullet_size': 'sm',
                       'bullet_count': 12}
+
+# arrow settings
+ARROW_IMG = 'arrow2.png'
+ARROW_DAMAGE = 30
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
@@ -65,7 +69,7 @@ DETECT_RADIUS = 400
 KNIGHT_IMG = 'Knight.png'
 MOB_SPEEDS = [150, 100, 75, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
-MOB_HEALTH = 100
+KNIGHT_HEALTH = 170
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
@@ -73,9 +77,9 @@ DETECT_RADIUS = 400
 
 # wizard settings
 WIZARD_IMG = 'Wizard.png'
-MOB_SPEEDS = [150, 100, 75, 125]
+WIZARD_SPEEDS = [100, 90, 85, 75]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
-WIZARD_HEALTH = 100
+WIZARD_HEALTH = 70
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
@@ -87,7 +91,7 @@ ARCHER_STENDING_IMG = 'archer_stending.png'
 ARCHER_SHOOTING_IMG = 'archer_shooting.png'
 MOB_SPEEDS = [150, 100, 75, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
-ARCHER_HEALTH = 30
+ARCHER_HEALTH = 70
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 10
 AVOID_RADIUS = 50
@@ -97,7 +101,7 @@ DETECT_RADIUS = 500
 # Effects
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
                   'whitePuff18.png']
-SPLAT = 'splat green.png'
+SPLAT = 'splat red.png'
 FLASH_DURATION = 50
 DAMAGE_ALPHA = [i for i in range(0, 255, 55)]
 
@@ -110,14 +114,14 @@ EFFECTS_LAYER = 4
 ITEMS_LAYER = 1
 
 # Items
-ITEM_IMAGES = {'health': 'health_pack.png',
-               'shotgun': 'obj_shotgun.png'}
+ITEM_IMAGES = {'health': 'pots_red.png',
+               'boost': 'pots_blue.png'}
 HEALTH_PACK_AMOUNT = 20
 BOB_RANGE = 10
 BOB_SPEED = 0.3
 
 # Sounds
-BG_MUSIC = 'espionage.ogg'
+BG_MUSIC = 'For Honor For Toussaint.ogg'
 PLAYER_HIT_SOUNDS = ['pain/8.wav', 'pain/9.wav', 'pain/10.wav', 'pain/11.wav']
 ZOMBIE_MOAN_SOUNDS = ['brains2.wav', 'brains3.wav', 'zombie-roar-1.wav', 'zombie-roar-2.wav',
                       'zombie-roar-3.wav', 'zombie-roar-5.wav', 'zombie-roar-6.wav', 'zombie-roar-7.wav']

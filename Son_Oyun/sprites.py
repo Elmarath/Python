@@ -199,7 +199,7 @@ class Knight(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
-        self.health = MOB_HEALTH
+        self.health = KNIGHT_HEALTH
         self.speed = choice(MOB_SPEEDS)
         self.target = game.player
 
@@ -235,15 +235,15 @@ class Knight(pg.sprite.Sprite):
             self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32))
 
     def draw_health(self):
-        if self.health > 60:
+        if self.health > 100:
             col = GREEN
-        elif self.health > 30:
+        elif self.health > 50:
             col = YELLOW
         else:
             col = RED
-        width = int(self.rect.width * self.health / MOB_HEALTH)
+        width = int(self.rect.width * self.health / KNIGHT_HEALTH)
         self.health_bar = pg.Rect(0, 0, width, 7)
-        if self.health < MOB_HEALTH:
+        if self.health < KNIGHT_HEALTH:
             pg.draw.rect(self.image, col, self.health_bar)
 
 
@@ -272,8 +272,8 @@ class Wizard(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
-        self.health = MOB_HEALTH
-        self.speed = choice(MOB_SPEEDS)
+        self.health = WIZARD_HEALTH
+        self.speed = choice(WIZARD_SPEEDS)
         self.target = game.player
         self.last_spawn = 0
 
@@ -296,7 +296,7 @@ class Wizard(pg.sprite.Sprite):
 
     def update(self):
         target_dist = self.target.pos - self.pos
-        if target_dist.length_squared() < DETECT_RADIUS**2:
+        if target_dist.length_squared() < (3*DETECT_RADIUS / 2)**2:
             if random() < 0.002:
                 choice(self.game.zombie_moan_sounds).play()
             self.rot = target_dist.angle_to(vec(1, 0))
@@ -305,10 +305,7 @@ class Wizard(pg.sprite.Sprite):
             self.acc = vec(1, 0).rotate(-self.rot)
             # self.avoid_mobs()
             self.avoid_player()
-            print(self.acc)
             self.spawn_zombie()
-            print("spawndan sonra acc")
-            print(self.acc)
             self.acc.scale_to_length(self.speed)
             self.acc += self.vel * -1
             self.vel += self.acc * self.game.dt
@@ -336,11 +333,6 @@ class Wizard(pg.sprite.Sprite):
         if self.health < WIZARD_HEALTH:
             pg.draw.rect(self.image, col, self.health_bar)
 
-        def shoot(self):
-            pass
-            # Bullet(self.game, pos, dir.rotate(spread),
-            #          WEAPONS[self.weapon]['damage'], self.rot)
-
 
 class Archer(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -353,6 +345,7 @@ class Archer(pg.sprite.Sprite):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
 
+        # archer img
         self.archer_stending_img = pg.image.load(
             path.join(img_folder, ARCHER_STENDING_IMG)).convert_alpha()
         self.archer_stending_img_0 = self.archer_stending_img.copy()
@@ -421,8 +414,9 @@ class Archer(pg.sprite.Sprite):
         now = pg.time.get_ticks()
         if now - self.last_spawn > 500:
             self.last_spawn = now
-            Bullet(self.game, self.pos, self.dir,
-                   20, self.rot)
+            dir = vec(1, 0).rotate(-self.rot)
+            Arrow(self.game, self.pos, dir,
+                  20, self.rot)
 
     def draw_health(self):
         if self.health > 60:
@@ -458,6 +452,49 @@ class Bullet(pg.sprite.Sprite):
             WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
         self.spawn_time = pg.time.get_ticks()
         self.damage = damage
+
+    def update(self):
+        self.pos += self.vel * self.game.dt
+        self.rect.center = self.pos
+        if pg.sprite.spritecollideany(self, self.game.walls):
+            self.kill()
+        if pg.time.get_ticks() - self.spawn_time > WEAPONS[self.game.player.weapon]['bullet_lifetime']:
+            self.kill()
+
+    def rotate(self):
+        self.image = pg.transform.rotate(self.image, self.rot)
+
+
+class Arrow(pg.sprite.Sprite):
+    def __init__(self, game, pos, dir, damage, rot):
+        self._layer = BULLET_LAYER
+        self.groups = game.all_sprites, game.arrows
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        # arrow img
+        self.image = pg.image.load(
+            path.join(img_folder, ARROW_IMG)).convert_alpha()
+
+        self.rot = rot
+        # this part is not mandatory (beacouse of the bullet img :( ))
+        self.rot = rot - 90
+        # making the arrow's angle correct
+        self.rotate()
+        self.rect = self.image.get_rect()
+        self.hit_rect = self.rect
+        self.pos = vec(pos)
+        # this part could change
+        self.rect.topleft = pos
+        #spread = uniform(-GUN_SPREAD, GUN_SPREAD)
+        # print("dir:")
+        self.vel = dir * \
+            WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
+        # print("vel:")
+        # print(self.vel)
+        self.spawn_time = pg.time.get_ticks()
+        self.damage = 10
 
     def update(self):
         self.pos += self.vel * self.game.dt
