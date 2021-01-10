@@ -5,5 +5,9 @@ sayi = (int(input("bir sayi giriniz")))
 
 total = 0
 
-for i in range(0, sayi):
-    print(i)
+for i in range(1, sayi):
+    if sayi % i == 0:
+        total += sayi
+
+if(total == sayi):
+    print("Sayi mükemmel sayidir.")

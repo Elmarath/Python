@@ -42,5 +42,3 @@ sehir = input("hava durumunu ogrenmek istediginiz sehrin adini giriniz")
 print(HavaDurumu[sehir])
 
 print("merhaba benim adim %s" % "Denizhan")
-
-print(a/"ahmet")
