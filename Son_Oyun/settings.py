@@ -53,7 +53,7 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
 
 # arrow settings
 ARROW_IMG = 'arrow2.png'
-ARROW_DAMAGE = 30
+ARROW_DAMAGE = 15
 ARROW_SOUND = 'arrow_release.wav'
 
 # Mob settings
